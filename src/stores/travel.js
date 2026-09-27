@@ -36,6 +36,13 @@ export const useTravelStore = defineStore('travel', {
       planStorage.write(this.plans)
     },
 
+    // ===== 备份恢复 =====
+    // 整体替换全部数据（入参需已通过 backup.parseBackup 校验），
+    // 单次赋值 + 单 key 持久化，不会出现只恢复一部分的半覆盖状态
+    replaceAll(plans) {
+      this.plans = plans
+    },
+
     // ===== 出行计划 =====
     createPlan(input) {
       const days = daysBetween(input.startDate, input.endDate)
