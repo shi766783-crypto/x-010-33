@@ -33,7 +33,16 @@ export const useTravelStore = defineStore('travel', {
       this.plans = planStorage.read([])
     },
     persist() {
-      planStorage.write(this.plans)
+      return planStorage.write(this.plans)
+    },
+
+    // ===== 备份恢复 =====
+    // 整体替换全部出行数据：先写 localStorage，成功后再更新内存状态。
+    // 任一步失败都直接返回 false，内存与存储中的原数据均保持不变，不会出现半覆盖状态。
+    replacePlans(plans) {
+      if (!planStorage.write(plans)) return false
+      this.plans = plans
+      return true
     },
 
     // ===== 出行计划 =====

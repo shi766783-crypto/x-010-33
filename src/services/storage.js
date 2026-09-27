@@ -16,8 +16,10 @@ export function createStorage(namespace) {
     write(value) {
       try {
         localStorage.setItem(key, JSON.stringify(value))
+        return true
       } catch (error) {
         console.error(`[storage] 写入 ${key} 失败`, error)
+        return false
       }
     },
     remove() {
